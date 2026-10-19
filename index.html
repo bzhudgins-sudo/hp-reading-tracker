@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14111c">
+<title>The Marauder's Reading Map</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23740001'/%3E%3Cpath d='M38 4 16 36h14l-6 24 24-34H34z' fill='%23D3A625'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --scarlet:#740001; --scarlet-2:#9a1b1b; --gold:#D3A625; --gold-2:#eecb6a;
+    --ink:#2b1a0e; --ink-soft:#5a4127; --parch:#f3e6c4; --parch-2:#e6d09c;
+    --night:#14111c; --stone:#2a2633;
+    --serif: "Palatino Linotype","Book Antiqua",Palatino,"URW Palladio L","P052",Georgia,"Times New Roman",serif;
+    --display: "Cinzel","Trajan Pro","Goudy Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    min-height:100vh; font-family:var(--serif); color:var(--ink); font-size:18px; line-height:1.45;
+    background:
+      radial-gradient(ellipse at 50% -10%, rgba(211,166,37,.18), transparent 55%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 2px, transparent 2px 46px),
+      repeating-linear-gradient(90deg, rgba(0,0,0,.18) 0 2px, transparent 2px 92px),
+      linear-gradient(180deg,#1d1926 0%, var(--night) 60%, #0c0a11 100%);
+    background-attachment:fixed;
+    padding:max(16px,env(safe-area-inset-top)) 14px 40px;
+  }
+  /* floating candles / stars */
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;
+    background-image:
+      radial-gradient(2px 2px at 12% 18%, rgba(238,203,106,.8), transparent 60%),
+      radial-gradient(2px 2px at 82% 12%, rgba(238,203,106,.6), transparent 60%),
+      radial-gradient(1.5px 1.5px at 66% 30%, rgba(255,255,255,.5), transparent 60%),
+      radial-gradient(1.5px 1.5px at 28% 40%, rgba(255,255,255,.4), transparent 60%),
+      radial-gradient(2px 2px at 92% 55%, rgba(238,203,106,.5), transparent 60%),
+      radial-gradient(1.5px 1.5px at 6% 70%, rgba(255,255,255,.4), transparent 60%);
+    animation:twinkle 6s ease-in-out infinite alternate}
+  @keyframes twinkle{from{opacity:.55}to{opacity:1}}
+  .wrap{max-width:760px;margin:0 auto;position:relative}
+
+  header{text-align:center;color:var(--gold-2);margin:6px 0 18px}
+  .crest{display:inline-grid;place-items:center;width:64px;height:64px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--scarlet-2), var(--scarlet) 70%);
+    border:3px solid var(--gold); box-shadow:0 0 0 4px rgba(211,166,37,.18),0 6px 18px rgba(0,0,0,.6)}
+  .crest svg{width:30px;height:30px}
+  h1{font-family:var(--display);font-weight:700;letter-spacing:.06em;font-size:clamp(26px,6vw,40px);
+    margin:10px 0 2px;text-shadow:0 2px 0 #000,0 0 18px rgba(211,166,37,.35)}
+  .sub{font-style:italic;color:#d9c79a;margin:0;font-size:17px}
+
+  .parchment{
+    position:relative;border-radius:6px;padding:22px 18px 24px;margin:0 0 18px;
+    background:
+      radial-gradient(ellipse at 20% 15%, rgba(255,255,255,.55), transparent 45%),
+      radial-gradient(ellipse at 85% 90%, rgba(150,100,40,.22), transparent 50%),
+      radial-gradient(ellipse at 50% 50%, var(--parch) 55%, var(--parch-2) 100%);
+    box-shadow: inset 0 0 40px rgba(120,80,30,.45), inset 0 0 4px rgba(90,60,20,.6), 0 10px 30px rgba(0,0,0,.55);
+    border:1px solid #b8955a;
+  }
+  .parchment::after{content:"";position:absolute;inset:7px;border:1.5px solid rgba(116,0,1,.35);border-radius:3px;pointer-events:none;
+    outline:1px solid rgba(211,166,37,.5);outline-offset:3px}
+  h2{font-family:var(--display);color:var(--scarlet);font-size:22px;letter-spacing:.05em;margin:0 0 6px;text-align:center}
+  .rule{height:2px;margin:6px auto 16px;width:70%;background:linear-gradient(90deg,transparent,var(--gold),var(--scarlet),var(--gold),transparent)}
+
+  /* Journey */
+  .stats{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;text-align:center;margin-bottom:14px}
+  .stat b{display:block;font-family:var(--display);font-size:30px;color:var(--scarlet);line-height:1.1}
+  .stat span{font-size:15px;color:var(--ink-soft);font-style:italic}
+  .journey{position:relative;margin:8px 4px 4px;padding-top:4px}
+  .track{position:absolute;left:22px;right:22px;top:26px;height:8px;border-radius:8px;
+    background:repeating-linear-gradient(90deg,#a98a55 0 10px,transparent 10px 18px);opacity:.7}
+  .trackfill{position:absolute;left:22px;top:26px;height:8px;border-radius:8px;width:0;
+    background:linear-gradient(90deg,var(--scarlet),var(--gold));box-shadow:0 0 10px rgba(211,166,37,.7);transition:width .6s ease}
+  .books{display:grid;grid-template-columns:repeat(7,1fr);position:relative}
+  .book{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
+  .tome{width:40px;height:48px;border-radius:3px 6px 6px 3px;display:grid;place-items:center;
+    font-family:var(--display);font-weight:700;font-size:18px;color:#7b6440;
+    background:linear-gradient(90deg,#c9b080 0 6px,#ddc89a 6px);border:2px solid #a98a55;
+    box-shadow:0 2px 4px rgba(0,0,0,.3);transition:all .4s}
+  .book.done .tome{background:linear-gradient(90deg,#5a0001 0 6px,var(--scarlet) 6px);color:var(--gold-2);border-color:var(--gold);
+    box-shadow:0 0 12px rgba(211,166,37,.7)}
+  .book.current .tome{border-color:var(--scarlet);color:var(--scarlet);animation:pulse 1.8s ease-in-out infinite}
+  @keyframes pulse{50%{box-shadow:0 0 0 5px rgba(116,0,1,.18)}}
+  .book small{font-size:12.5px;line-height:1.15;color:var(--ink-soft)}
+  .book.done small{color:var(--scarlet);font-weight:700}
+  .chapter{text-align:center;margin:16px 0 0;font-style:italic;color:var(--ink-soft)}
+  .chapter strong{font-style:normal;color:var(--scarlet)}
+
+  /* Days */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px}
+  .day{
+    -webkit-tap-highlight-color:transparent; appearance:none; cursor:pointer; font-family:var(--serif);
+    min-height:84px; border-radius:8px; padding:8px 4px; color:var(--ink);
+    border:2px solid #b8955a; background:rgba(255,250,235,.55);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+    box-shadow:inset 0 -3px 0 rgba(120,80,30,.15); transition:transform .12s, background .25s, border-color .25s;
+  }
+  .day:active{transform:scale(.95)}
+  .day:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+  .day .n{font-family:var(--display);font-size:24px;font-weight:700;line-height:1}
+  .day .d{font-size:13px;color:var(--ink-soft)}
+  .day .m{font-size:11.5px;font-style:italic;letter-spacing:.02em;min-height:1.2em}
+  .day.today{border-color:var(--scarlet);border-width:3px}
+  .day.today .d{color:var(--scarlet);font-weight:700}
+  .day.on{background:linear-gradient(160deg,var(--scarlet-2),var(--scarlet));border-color:var(--gold);color:var(--gold-2);
+    box-shadow:inset 0 0 0 1px rgba(238,203,106,.4),0 3px 8px rgba(116,0,1,.4)}
+  .day.on .d{color:#f0dca8}
+  .day.on .m{color:var(--gold-2)}
+  .day.future{opacity:.55}
+  .day svg{width:16px;height:16px;vertical-align:-2px}
+
+  .btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+  button.act{font-family:var(--display);font-size:16px;letter-spacing:.04em;min-height:52px;padding:0 20px;border-radius:26px;cursor:pointer;
+    border:2px solid var(--gold);background:var(--scarlet);color:var(--gold-2);box-shadow:0 3px 0 #3d0000}
+  button.act.ghost{background:transparent;color:var(--scarlet);border-color:var(--scarlet);box-shadow:none}
+  button.act:active{transform:translateY(2px);box-shadow:none}
+
+  details{margin-top:4px}
+  summary{cursor:pointer;font-family:var(--display);color:var(--scarlet);font-size:18px;min-height:44px;display:flex;align-items:center;justify-content:center;gap:8px}
+  label{display:block;margin:12px 0 4px;font-weight:700;color:var(--ink-soft)}
+  input{width:100%;font:inherit;font-size:18px;min-height:50px;padding:8px 12px;border-radius:6px;border:2px solid #b8955a;background:rgba(255,250,235,.8);color:var(--ink)}
+  input:focus{outline:3px solid var(--gold);border-color:var(--scarlet)}
+  .note{font-size:14px;font-style:italic;color:var(--ink-soft);text-align:center;margin-top:10px}
+
+  /* Mischief Managed toast */
+  .toast{position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom));transform:translate(-50%,140%);
+    padding:14px 22px;border-radius:8px;text-align:center;max-width:90vw;z-index:9;
+    background:radial-gradient(ellipse at 50% 50%, var(--parch) 55%, var(--parch-2));color:var(--scarlet);
+    border:2px solid var(--gold);box-shadow:0 10px 30px rgba(0,0,0,.6),inset 0 0 20px rgba(120,80,30,.4);
+    font-family:var(--display);font-size:22px;letter-spacing:.06em;transition:transform .45s cubic-bezier(.2,1.4,.4,1)}
+  .toast small{display:block;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink-soft);letter-spacing:0}
+  .toast.show{transform:translate(-50%,0)}
+  .spark{position:fixed;pointer-events:none;width:8px;height:8px;border-radius:50%;background:var(--gold-2);
+    box-shadow:0 0 8px var(--gold);z-index:10;animation:spark .9s ease-out forwards}
+  @keyframes spark{to{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
+  footer{text-align:center;color:#8e7f63;font-size:13px;font-style:italic;margin-top:8px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  @media (max-width:420px){.book small{font-size:10.5px}.tome{width:34px;height:42px;font-size:16px}.grid{grid-template-columns:repeat(auto-fill,minmax(76px,1fr))}}
+
+  /* Today card */
+  .today-card{border:2px solid var(--gold)}
+  #today{text-align:center}
+  #today .date{font-family:var(--display);font-size:20px;color:var(--ink-soft);margin:0 0 8px}
+  #today .big{font-size:20px}
+  #today .asg{margin:8px 0}
+  #today .head{font-family:var(--display);font-size:24px;color:var(--scarlet);font-weight:700}
+  #today .bt{display:block;font-family:var(--serif);font-style:italic;font-size:16px;color:var(--ink-soft);font-weight:400}
+  #today ol.titles{display:inline-block;text-align:left;margin:8px 0 4px;padding-left:1.4em;font-size:19px}
+  #today ol.titles li{margin:3px 0}
+  #today .rest{font-family:var(--display);font-size:30px;color:var(--scarlet);margin:4px 0}
+  #today .reason{font-style:italic;font-size:19px;margin:0 0 12px}
+  #today .next{margin:10px 0 0}
+  #today .next + .asg .head{font-size:19px}
+  button.act.check{margin-top:14px;min-height:60px;font-size:18px;width:100%;max-width:360px}
+  button.act.check.on{background:linear-gradient(160deg,var(--scarlet-2),var(--scarlet))}
+  button.act.check svg{width:18px;height:18px;vertical-align:-3px}
+  /* Schedule list */
+  .sched{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .day-row{width:100%;display:flex;gap:12px;align-items:flex-start;text-align:left;cursor:pointer;font:inherit;color:var(--ink);
+    min-height:64px;padding:10px 12px;border-radius:8px;border:2px solid #b8955a;background:rgba(255,250,235,.55);-webkit-tap-highlight-color:transparent;transition:background .25s}
+  .day-row:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+  .day-row:active{transform:scale(.985)}
+  .day-row:disabled{opacity:.5;cursor:default}
+  .box{flex:0 0 40px;height:40px;border-radius:6px;border:2px solid #a98a55;background:#fffaf0;display:grid;place-items:center;color:var(--gold-2);margin-top:2px}
+  .box svg{width:24px;height:24px}
+  .info{flex:1;min-width:0}
+  .row .dt{font-weight:700;font-size:15px;color:var(--ink-soft)}
+  .day-row .head{font-family:var(--display);font-weight:700;color:var(--scarlet);font-size:17px;line-height:1.25}
+  .day-row .bt{font-family:var(--serif);font-weight:400;font-style:italic;font-size:14px;color:var(--ink-soft)}
+  .day-row .titles{font-size:15px;line-height:1.35}
+  .day-row .asg+.asg{margin-top:4px}
+  .mm{display:block;font-style:italic;font-size:14px;color:var(--gold-2);margin-top:3px;letter-spacing:.03em}
+  .day-row.on{background:linear-gradient(160deg,var(--scarlet-2),var(--scarlet));border-color:var(--gold);color:#f6e7bf}
+  .day-row.on .box{background:rgba(0,0,0,.2);border-color:var(--gold)}
+  .day-row.on .head,.day-row.on .dt{color:var(--gold-2)}
+  .day-row.on .bt{color:#e6cf9a}
+  .day-row.behind{border-style:dashed;border-color:var(--scarlet)}
+  .row.is-today .day-row{border-width:3px;border-color:var(--scarlet);box-shadow:0 0 0 3px rgba(211,166,37,.45)}
+  .rest-row{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:6px 12px;border-radius:6px;font-size:14px;color:var(--ink-soft);
+    background:repeating-linear-gradient(135deg,rgba(169,138,85,.12) 0 8px,transparent 8px 16px)}
+  .rest-row .rr{font-style:italic}
+  .rest-row.is-today{outline:3px solid var(--scarlet)}
+  #today .sep{display:none}
+  .book small{max-width:100%;overflow-wrap:anywhere}
+  @media (max-width:420px){.book small{font-size:9.5px;letter-spacing:-.01em}}
+  .none{font-style:italic;color:var(--ink-soft);margin:2px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="crest" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M14.5 1 5 13.5h6L8.5 23 19 9.5h-6.2z" fill="#D3A625" stroke="#5a0001" stroke-width=".8" stroke-linejoin="round"/></svg>
+    </div>
+    <h1>The Marauder's Reading Map</h1>
+    <p class="sub">All seven books · Oct 19 – Dec 24, 2026</p>
+  </header>
+
+  <section class="parchment today-card" aria-labelledby="th">
+    <h2 id="th">Today</h2>
+    <div class="rule"></div>
+    <div id="today"></div>
+  </section>
+
+  <section class="parchment" aria-labelledby="jh">
+    <h2 id="jh">The Journey</h2>
+    <div class="rule"></div>
+    <div class="stats">
+      <div class="stat"><b id="sCh">0</b><span>chapters read</span></div>
+      <div class="stat"><b id="sDays">0</b><span>days managed</span></div>
+      <div class="stat"><b id="sPct">0%</b><span>of the way</span></div>
+    </div>
+    <div class="journey" aria-hidden="true">
+      <div class="track"></div><div class="trackfill" id="fill"></div>
+      <div class="books" id="books"></div>
+    </div>
+    <p class="chapter" id="chapter" aria-live="polite"></p>
+  </section>
+
+  <section class="parchment" aria-labelledby="sh">
+    <h2 id="sh">The Schedule</h2>
+    <div class="rule"></div>
+    <ol class="sched" id="sched"></ol>
+    <div class="btns">
+      <button class="act" id="resched" type="button">🪄 Reschedule remaining</button>
+      <button class="act ghost" id="reset" type="button">Clear all checks</button>
+    </div>
+    <p class="note">Reschedule spreads every unread chapter, in order, across the reading days left from today to Dec 24. Progress is saved on this device only and works offline.</p>
+  </section>
+  <footer>Fan-made &amp; unofficial · no owls required</footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+/*SCHED-START*/
+const BOOKS=[
+ {n:1,title:"Sorcerer's Stone",short:"Stone",pages:309,ch:["The Boy Who Lived","The Vanishing Glass","The Letters from No One","The Keeper of the Keys","Diagon Alley","The Journey from Platform Nine and Three-Quarters","The Sorting Hat","The Potions Master","The Midnight Duel","Hallowe'en","Quidditch","The Mirror of Erised","Nicolas Flamel","Norbert the Norwegian Ridgeback","The Forbidden Forest","Through the Trapdoor","The Man with Two Faces"]},
+ {n:2,title:"Chamber of Secrets",short:"Chamber",pages:341,ch:["The Worst Birthday","Dobby's Warning","The Burrow","At Flourish and Blotts","The Whomping Willow","Gilderoy Lockhart","Mudbloods and Murmurs","The Deathday Party","The Writing on the Wall","The Rogue Bludger","The Dueling Club","The Polyjuice Potion","The Very Secret Diary","Cornelius Fudge","Aragog","The Chamber of Secrets","The Heir of Slytherin","Dobby's Reward"]},
+ {n:3,title:"Prisoner of Azkaban",short:"Azkaban",pages:435,ch:["Owl Post","Aunt Marge's Big Mistake","The Knight Bus","The Leaky Cauldron","The Dementor","Talons and Tea Leaves","The Boggart in the Wardrobe","Flight of the Fat Lady","Grim Defeat","The Marauder's Map","The Firebolt","The Patronus","Gryffindor Versus Ravenclaw","Snape's Grudge","The Quidditch Final","Professor Trelawney's Prediction","Cat, Rat, and Dog","Moony, Wormtail, Padfoot, and Prongs","The Servant of Lord Voldemort","The Dementor's Kiss","Hermione's Secret","Owl Post Again"]},
+ {n:4,title:"Goblet of Fire",short:"Goblet",pages:734,ch:["The Riddle House","The Scar","The Invitation","Back to the Burrow","Weasleys' Wizard Wheezes","The Portkey","Bagman and Crouch","The Quidditch World Cup","The Dark Mark","Mayhem at the Ministry","Aboard the Hogwarts Express","The Triwizard Tournament","Mad-Eye Moody","The Unforgivable Curses","Beauxbatons and Durmstrang","The Goblet of Fire","The Four Champions","The Weighing of the Wands","The Hungarian Horntail","The First Task","The House-Elf Liberation Front","The Unexpected Task","The Yule Ball","Rita Skeeter's Scoop","The Egg and the Eye","The Second Task","Padfoot Returns","The Madness of Mr. Crouch","The Dream","The Pensieve","The Third Task","Flesh, Blood, and Bone","The Death Eaters","Priori Incantatem","Veritaserum","The Parting of the Ways","The Beginning"]},
+ {n:5,title:"Order of the Phoenix",short:"Phoenix",pages:870,ch:["Dudley Demented","A Peck of Owls","The Advance Guard","Number Twelve, Grimmauld Place","The Order of the Phoenix","The Noble and Most Ancient House of Black","The Ministry of Magic","The Hearing","The Woes of Mrs. Weasley","Luna Lovegood","The Sorting Hat's New Song","Professor Umbridge","Detention with Dolores","Percy and Padfoot","The Hogwarts High Inquisitor","In the Hog's Head","Educational Decree Number Twenty-Four","Dumbledore's Army","The Lion and the Serpent","Hagrid's Tale","The Eye of the Snake","St. Mungo's Hospital for Magical Maladies and Injuries","Christmas on the Closed Ward","Occlumency","The Beetle at Bay","Seen and Unforeseen","The Centaur and the Sneak","Snape's Worst Memory","Career Advice","Grawp","O.W.L.s","Out of the Fire","Fight and Flight","The Department of Mysteries","Beyond the Veil","The Only One He Ever Feared","The Lost Prophecy","The Second War Begins"]},
+ {n:6,title:"Half-Blood Prince",short:"Prince",pages:652,ch:["The Other Minister","Spinner's End","Will and Won't","Horace Slughorn","An Excess of Phlegm","Draco's Detour","The Slug Club","Snape Victorious","The Half-Blood Prince","The House of Gaunt","Hermione's Helping Hand","Silver and Opals","The Secret Riddle","Felix Felicis","The Unbreakable Vow","A Very Frosty Christmas","A Sluggish Memory","Birthday Surprises","Elf Tails","Lord Voldemort's Request","The Unknowable Room","After the Burial","Horcruxes","Sectumsempra","The Seer Overheard","The Cave","The Lightning-Struck Tower","Flight of the Prince","The Phoenix Lament","The White Tomb"]},
+ {n:7,title:"Deathly Hallows",short:"Hallows",pages:759,ch:["The Dark Lord Ascending","In Memoriam","The Dursleys Departing","The Seven Potters","Fallen Warrior","The Ghoul in Pajamas","The Will of Albus Dumbledore","The Wedding","A Place to Hide","Kreacher's Tale","The Bribe","Magic is Might","The Muggle-Born Registration Commission","The Thief","The Goblin's Revenge","Godric's Hollow","Bathilda's Secret","The Life and Lies of Albus Dumbledore","The Silver Doe","Xenophilius Lovegood","The Tale of the Three Brothers","The Deathly Hallows","Malfoy Manor","The Wandmaker","Shell Cottage","Gringotts","The Final Hiding Place","The Missing Mirror","The Lost Diadem","The Sacking of Severus Snape","The Battle of Hogwarts","The Elder Wand","The Prince's Tale","The Forest Again","King's Cross","The Flaw in the Plan","Epilogue: Nineteen Years Later"],epilogue:true}
+];
+const START="2026-10-19", END="2026-12-24";
+const HOLIDAYS={"2026-11-25":"Day before Thanksgiving","2026-11-26":"Thanksgiving","2026-12-25":"Christmas Day"};
+const pad2=n=>String(n).padStart(2,"0");
+function isoAdd(s,n){const [y,m,d]=s.split("-").map(Number);const t=new Date(Date.UTC(y,m-1,d+n));return t.getUTCFullYear()+"-"+pad2(t.getUTCMonth()+1)+"-"+pad2(t.getUTCDate());}
+function dow(s){const [y,m,d]=s.split("-").map(Number);return new Date(Date.UTC(y,m-1,d)).getUTCDay();}
+function restReasons(s){const r=[];if(HOLIDAYS[s])r.push(HOLIDAYS[s]);const w=dow(s);if(w===3)r.push("Wednesday rest day");if(w===0)r.push("Sunday rest day");return r;}
+function allDays(){const out=[];for(let s=START;s<=END;s=isoAdd(s,1))out.push(s);return out;}
+function readingDays(){return allDays().filter(s=>restReasons(s).length===0);}
+const CHAPTERS=[];
+BOOKS.forEach(b=>{const per=b.pages/b.ch.length;b.ch.forEach((t,i)=>{const epi=b.epilogue&&i===b.ch.length-1;CHAPTERS.push({id:CHAPTERS.length,b:b.n,c:epi?null:i+1,title:t,pages:per});});});
+// Split chapter ids (kept in order) into days.length contiguous groups, balanced by pages.
+function partition(ids,days){const M=ids.length,N=days.length,out={};if(!N)return out;
+  const cum=[0];ids.forEach(id=>cum.push(cum[cum.length-1]+CHAPTERS[id].pages));const T=cum[M];
+  let prev=0;
+  for(let k=1;k<=N;k++){let e;
+    if(k===N)e=M;else{const target=T*k/N;const lo=M>=N?prev+1:prev,hi=M>=N?M-(N-k):M;
+      e=lo;let best=Infinity;for(let j=lo;j<=hi;j++){const dlt=Math.abs(cum[j]-target);if(dlt<best){best=dlt;e=j;}}}
+    out[days[k-1]]=ids.slice(prev,e);prev=e;}
+  return out;}
+function buildDefault(){return partition(CHAPTERS.map(c=>c.id),readingDays());}
+// Keep checked days as-is; put every unread chapter, in order, onto unchecked reading days from today through END.
+function reschedule(schedule,checked,today){const done=new Set();const next={};
+  readingDays().forEach(d=>{if(checked[d]){(schedule[d]||[]).forEach(id=>done.add(id));next[d]=(schedule[d]||[]).slice();}});
+  const remaining=CHAPTERS.map(c=>c.id).filter(id=>!done.has(id));
+  const future=readingDays().filter(d=>d>=today&&!checked[d]);
+  if(remaining.length&&!future.length)return null;
+  readingDays().forEach(d=>{if(!checked[d]&&d<today)next[d]=[];});
+  Object.assign(next,partition(remaining,future));return next;}
+function chLabel(c){return c.c==null?"Epilogue":"Ch. "+c.c;}
+// e.g. [{book:3, head:"Book 3, Ch. 5–7", titles:[...]}] — one group per book touched that day
+function describe(ids){const groups=[];ids.forEach(id=>{const c=CHAPTERS[id];let g=groups[groups.length-1];if(!g||g.b!==c.b){g={b:c.b,list:[]};groups.push(g);}g.list.push(c);});
+  return groups.map(g=>{const f=g.list[0],l=g.list[g.list.length-1];let range;
+    if(g.list.length===1)range=chLabel(f);else if(l.c==null)range="Ch. "+f.c+"–"+(BOOKS[6].ch.length-1)+" + Epilogue";else range="Ch. "+f.c+"–"+l.c;
+    return {book:g.b,bookTitle:BOOKS[g.b-1].title,head:"Book "+g.b+", "+range,titles:g.list.map(c=>c.title)};});}
+if(typeof module!=="undefined")module.exports={BOOKS,START,END,HOLIDAYS,CHAPTERS,isoAdd,dow,restReasons,allDays,readingDays,partition,buildDefault,reschedule,describe};
+/*SCHED-END*/
+
+(function(){
+  const KEY='hp-reading-schedule-2026-v1';
+  const ROMAN=['I','II','III','IV','V','VI','VII'];
+  const BOLT='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 1 5 13.5h6L8.5 23 19 9.5h-6.2z" fill="currentColor"/></svg>';
+  const WK=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],WKL=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const fmt=(s,long)=>{const [y,m,d]=s.split('-').map(Number);return (long?WKL:WK)[dow(s)]+', '+MO[m-1]+' '+d;};
+  // "today" always in America/Chicago, whatever the device timezone
+  const todayISO=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+
+  let st=null;try{st=JSON.parse(localStorage.getItem(KEY));}catch(e){}
+  if(!st||typeof st!=='object')st={};
+  if(!st.checked)st.checked={};
+  if(!st.schedule)st.schedule=buildDefault();
+  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}};
+  save();
+  const $=id=>document.getElementById(id);
+  const RD=readingDays();
+
+  $('books').innerHTML=BOOKS.map((b,i)=>`<div class="book"><div class="tome">${ROMAN[i]}</div><small>${b.short}</small></div>`).join('');
+
+  function assignHTML(ids,big){
+    if(!ids||!ids.length)return '<p class="none">Nothing assigned (moved by a reschedule).</p>';
+    return describe(ids).map(g=>`<div class="asg"><div class="head">${esc(g.head)}<span class="bt"><span class="sep"> · </span>${esc(g.bookTitle)}</span></div>
+      <${big?'ol':'div'} class="titles">${big?g.titles.map(t=>'<li>'+esc(t)+'</li>').join(''):esc(g.titles.join(' · '))}</${big?'ol':'div'}></div>`).join('');
+  }
+  function doneSet(){const s=new Set();RD.forEach(d=>{if(st.checked[d])(st.schedule[d]||[]).forEach(i=>s.add(i));});return s;}
+
+  function renderToday(t){
+    const el=$('today');
+    if(t<START){el.innerHTML=`<p class="big">The journey begins <strong>${fmt(START,1)}</strong>.</p>${assignHTML(st.schedule[START],1)}`;return;}
+    if(t>END){const n=doneSet().size;el.innerHTML=`<p class="big">${n===CHAPTERS.length?'Mischief Managed — all seven books read.':'The schedule ended Dec 24. '+(CHAPTERS.length-n)+' chapters still unchecked.'}</p>`;return;}
+    const why=restReasons(t);
+    if(why.length){const nx=RD.find(d=>d>t);
+      el.innerHTML=`<p class="date">${fmt(t,1)}</p><p class="rest">Rest day</p><p class="reason">${esc(why.join(' · '))}</p>`+
+        (nx?`<p class="next">Next reading: <strong>${fmt(nx,1)}</strong></p>${assignHTML(st.schedule[nx],0)}`:'');return;}
+    const on=!!st.checked[t];
+    el.innerHTML=`<p class="date">${fmt(t,1)}</p>${assignHTML(st.schedule[t],1)}
+      <button class="act check ${on?'on':''}" id="todayBtn" type="button" aria-pressed="${on}">${on?BOLT+' Mischief Managed':'⚡ Mark today as read'}</button>`;
+    $('todayBtn').onclick=()=>toggle(t);
+  }
+
+  function render(){
+    const t=todayISO();
+    renderToday(t);
+    const ol=$('sched');
+    ol.innerHTML=allDays().map(d=>{
+      const why=restReasons(d), cls=d===t?' is-today':'';
+      if(why.length)return `<li class="row rest-row${cls}"><span class="dt">${fmt(d)}</span><span class="rr">Rest · ${esc(why.join(' · '))}</span></li>`;
+      const on=!!st.checked[d], ids=st.schedule[d]||[], behind=!on&&d<t&&ids.length;
+      return `<li class="row${cls}"><button type="button" class="day-row${on?' on':''}${behind?' behind':''}" data-d="${d}" aria-pressed="${on}" ${ids.length?'':'disabled'}
+        aria-label="${fmt(d,1)}${d===t?', today':''}: ${esc(describe(ids).map(g=>g.head).join(', ')||'nothing assigned')}">
+        <span class="box" aria-hidden="true">${on?BOLT:''}</span>
+        <span class="info"><span class="dt">${d===t?'Today · ':''}${fmt(d)}${behind?' · <em>behind</em>':''}</span>${assignHTML(ids,0)}${on?'<span class="mm">Mischief Managed</span>':''}</span>
+      </button></li>`;}).join('');
+
+    const done=doneSet(), nDone=done.size, frac=nDone/CHAPTERS.length;
+    $('sCh').textContent=nDone+'/'+CHAPTERS.length;
+    $('sDays').textContent=RD.filter(d=>st.checked[d]).length+'/'+RD.length;
+    $('sPct').textContent=Math.round(frac*100)+'%';
+    const bookDone=BOOKS.map(b=>CHAPTERS.filter(c=>c.b===b.n).every(c=>done.has(c.id)));
+    const cur=bookDone.indexOf(false);
+    [...$('books').children].forEach((el,i)=>{el.classList.toggle('done',bookDone[i]);el.classList.toggle('current',i===cur);});
+    const bw=$('books').getBoundingClientRect().width;$('fill').style.width=Math.max(0,frac*(bw-44))+'px';
+    if(cur<0)$('chapter').innerHTML='<strong>All seven books complete.</strong> Mischief Managed.';
+    else{const left=CHAPTERS.filter(c=>c.b===cur+1&&!done.has(c.id)).length;
+      $('chapter').innerHTML=`Now reading <strong>Book ${cur+1}: ${esc(BOOKS[cur].title)}</strong> — ${left} chapter${left===1?'':'s'} to go in this book.`;}
+    return bookDone.filter(Boolean).length;
+  }
+
+  let tt;function toast(a,b){const x=$('toast');x.innerHTML=a+(b?'<small>'+b+'</small>':'');x.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>x.classList.remove('show'),2600);}
+  function sparks(el){if(!el||matchMedia('(prefers-reduced-motion: reduce)').matches)return;const r=el.getBoundingClientRect(),x=r.left+Math.min(40,r.width/2),y=r.top+r.height/2;
+    for(let i=0;i<14;i++){const s=document.createElement('div');s.className='spark';const a=Math.random()*6.283,q=40+Math.random()*60;
+      s.style.left=x+'px';s.style.top=y+'px';s.style.setProperty('--dx',Math.cos(a)*q+'px');s.style.setProperty('--dy',Math.sin(a)*q+'px');document.body.appendChild(s);setTimeout(()=>s.remove(),950);}}
+  function toggle(d){
+    const before=render();
+    if(st.checked[d])delete st.checked[d];else st.checked[d]=true;
+    save();const after=render();
+    if(st.checked[d]){sparks(document.querySelector(`[data-d="${d}"] .box`)||$('todayBtn'));if(navigator.vibrate)navigator.vibrate(30);
+      toast(after>before?'Mischief Managed!':'Mischief Managed',after>before?(after===7?'All seven books complete. Nox.':'You finished '+BOOKS[after-1].title+'.'):'Another day in the books.');}
+  }
+  $('sched').addEventListener('click',e=>{const b=e.target.closest('.day-row');if(b&&!b.disabled)toggle(b.dataset.d);});
+  $('resched').onclick=()=>{const t=todayISO();const next=reschedule(st.schedule,st.checked,t<START?START:t);
+    if(!next){toast('No days left','There are no reading days left before Dec 24.');return;}
+    if(!confirm('Spread all unread chapters across the reading days left from today through Dec 24? Checked days stay as they are.'))return;
+    st.schedule=next;save();render();toast('Schedule rewritten','Unread chapters spread through Dec 24.');};
+  $('reset').onclick=()=>{if(confirm('Clear every checked day and restore the original schedule? This cannot be undone.')){st={checked:{},schedule:buildDefault()};save();render();toast('Obliviate!','All checks cleared.');}};
+  addEventListener('resize',render);
+  let last=todayISO();setInterval(()=>{const n=todayISO();if(n!==last){last=n;render();}},60000);
+  render();
+  const tr=document.querySelector('.row.is-today');if(tr&&tr.scrollIntoView&&location.hash==='#today-row')tr.scrollIntoView({block:'center'});
+})();
+</script>
+</body>
+</html>
