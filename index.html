@@ -186,6 +186,77 @@
   .book small{max-width:100%;overflow-wrap:anywhere}
   @media (max-width:420px){.book small{font-size:9.5px;letter-spacing:-.01em}}
   .none{font-style:italic;color:var(--ink-soft);margin:2px 0}
+
+  /* v3: tabs + chapters */
+  html{scroll-padding-top:84px}
+  .tabs{position:sticky;top:0;z-index:5;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 14px;padding:6px;border-radius:12px;
+    background:rgba(20,17,28,.92);border:1px solid rgba(211,166,37,.5);backdrop-filter:blur(4px)}
+  .tabs a{display:flex;align-items:center;justify-content:center;gap:4px;min-height:48px;border-radius:8px;text-align:center;text-decoration:none;
+    font-family:var(--display);font-size:14px;line-height:1.1;color:var(--gold-2);border:1px solid transparent}
+  .tabs a.on{background:var(--scarlet);border-color:var(--gold);color:#fff3cf}
+  .badge{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--gold);color:var(--scarlet);font-family:var(--serif);font-weight:700;font-size:12px}
+  .badge:empty{display:none}
+  .view{display:none}.view.active{display:block}
+  .chaps{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+  .chap{display:flex;gap:12px;align-items:center;min-height:52px;padding:6px 10px;border-radius:8px;cursor:pointer;
+    border:1.5px solid #c9ad74;background:rgba(255,250,235,.7);-webkit-tap-highlight-color:transparent;text-align:left}
+  .chap input{appearance:none;-webkit-appearance:none;flex:0 0 30px;height:30px;margin:0;border-radius:6px;border:2px solid #a98a55;background:#fffaf0;display:grid;place-items:center;cursor:pointer}
+  .chap input{width:30px;min-height:0;padding:0;font-size:0}
+  .chap input:checked{background:var(--scarlet);border-color:var(--gold)}
+  .chap input:checked::after{content:"";width:9px;height:15px;border:solid var(--gold-2);border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-2px)}
+  .chap input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+  .chap .ct{font-size:16px;line-height:1.3}
+  .chap .cn{font-family:var(--display);font-weight:700;color:var(--scarlet);white-space:nowrap}
+  .chap .cm{display:block;font-size:12.5px;font-style:italic;color:var(--ink-soft)}
+  .chap.on{background:rgba(116,0,1,.08);border-color:var(--gold)}
+  .chap.on .ct{color:var(--ink-soft)}
+  .chap.on .ct > :not(.cm){text-decoration:none}
+  .chaps.big .chap{min-height:58px}.chaps.big .ct{font-size:18px}
+  #today .todayhead .head{font-family:var(--display);font-size:22px;color:var(--scarlet);font-weight:700}
+  #today .todayhead .bt,#today .nexthead .bt{display:block;font-style:italic;font-size:15px;color:var(--ink-soft);margin-bottom:4px}
+  #today .nexthead .head{font-family:var(--display);font-size:18px;color:var(--scarlet);font-weight:700}
+  #today .sep{display:none}
+  #today .prog{margin:10px 0 0;font-style:italic;color:var(--ink-soft)}
+  .box{flex:0 0 44px;width:44px;height:44px;border-radius:8px;border:2px solid #a98a55;background:#fffaf0;display:grid;place-items:center;color:var(--gold-2);cursor:pointer;padding:0}
+  .box svg{width:24px;height:24px}
+  .box.all{background:var(--scarlet);border-color:var(--gold)}
+  .box.some{border-color:var(--scarlet)} .box .dash{width:18px;height:4px;border-radius:2px;background:var(--scarlet)}
+  .box:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+  .day-card{display:flex;gap:10px;align-items:flex-start;padding:10px;border-radius:8px;border:2px solid #b8955a;background:rgba(255,250,235,.55)}
+  .day-card details{flex:1;min-width:0}
+  .day-card summary{display:block;cursor:pointer;list-style:none;min-height:44px;font-family:var(--serif);font-size:16px;color:var(--ink);text-align:left}
+  .day-card summary::-webkit-details-marker{display:none}
+  .day-card summary::after{content:"▾ chapters";display:block;font-size:12.5px;font-style:italic;color:var(--scarlet);margin-top:2px}
+  .day-card details[open] summary::after{content:"▴ hide"}
+  .day-card .head{font-family:var(--display);font-weight:700;color:var(--scarlet);font-size:16px}
+  .day-card .bt{font-style:italic;font-size:13.5px;color:var(--ink-soft)}
+  .count{float:right;font-weight:700;font-size:14px;padding:1px 8px;border-radius:10px;border:1.5px solid #b8955a;color:var(--ink-soft)}
+  .count.part{border-color:var(--scarlet);color:var(--scarlet)} .count.full{background:var(--scarlet);border-color:var(--gold);color:var(--gold-2)}
+  .day-card.on{border-color:var(--gold);background:linear-gradient(160deg,rgba(154,27,27,.14),rgba(116,0,1,.08))}
+  .day-card.behind{border-style:dashed;border-color:var(--scarlet)}
+  .row.is-today .day-card{border-width:3px;border-color:var(--scarlet);box-shadow:0 0 0 3px rgba(211,166,37,.45)}
+  .mm{display:block;font-style:italic;font-size:13.5px;color:var(--scarlet);margin-top:2px}
+  .behind-banner{display:block;text-align:center;text-decoration:none;color:var(--scarlet);font-size:17px;padding:16px;border:2px dashed var(--scarlet)}
+  .behind-banner[hidden]{display:none}
+  .cusum{text-align:center;font-size:19px;margin-bottom:12px}
+  .cusum b{font-family:var(--display);font-size:40px;color:var(--scarlet);display:block;line-height:1}
+  .cusum span{font-style:italic;color:var(--ink-soft)} .cusum small{font-size:15px;color:var(--ink-soft)}
+  .cugroup{margin:14px 0;padding-top:10px;border-top:1px solid rgba(169,138,85,.5)}
+  .cuhead{display:flex;gap:10px;align-items:center}
+  .cuhead .dt{display:block;font-family:var(--display);font-weight:700;color:var(--scarlet);font-size:17px}
+  .cucount{font-size:14px;font-style:italic;color:var(--ink-soft)}
+  .allgood{text-align:center;font-family:var(--display);font-size:24px;color:var(--scarlet)} .allgood svg{width:22px;height:22px;vertical-align:-3px}
+  .bk{border:2px solid #b8955a;border-radius:8px;background:rgba(255,250,235,.55);padding:10px;margin:0 0 10px}
+  .bk.done{border-color:var(--gold);background:rgba(116,0,1,.07)}
+  .bk summary{display:flex;justify-content:flex-start;font-family:var(--serif);font-size:16px;color:var(--ink);text-align:left;gap:12px;align-items:center;cursor:pointer;list-style:none;min-height:56px}
+  .bk summary::-webkit-details-marker{display:none}
+  .tome.sm{flex:0 0 38px;width:38px;height:46px;font-size:15px}
+  .bk.done .tome.sm{background:linear-gradient(90deg,#5a0001 0 6px,var(--scarlet) 6px);color:var(--gold-2);border-color:var(--gold)}
+  .bkt{flex:1;min-width:0} .bkt b{font-family:var(--display);color:var(--scarlet);font-size:17px}
+  .bar{display:block;height:8px;border-radius:4px;background:rgba(169,138,85,.3);margin:5px 0 3px;overflow:hidden}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--scarlet),var(--gold))}
+  .bkn{font-size:13.5px;font-style:italic;color:var(--ink-soft)}
+  @media (max-width:380px){.tabs a{font-size:12.5px}}
 </style>
 </head>
 <body>
@@ -198,36 +269,61 @@
     <p class="sub">All seven books · Oct 19 – Dec 24, 2026</p>
   </header>
 
-  <section class="parchment today-card" aria-labelledby="th">
-    <h2 id="th">Today</h2>
-    <div class="rule"></div>
-    <div id="today"></div>
-  </section>
+  <nav class="tabs" role="tablist" aria-label="Views">
+    <a href="#today" data-tab="today" role="tab">Today</a>
+    <a href="#catchup" data-tab="catchup" role="tab">Catch up <span class="badge" id="cuBadge"></span></a>
+    <a href="#schedule" data-tab="schedule" role="tab">Schedule</a>
+    <a href="#books" data-tab="books" role="tab">By book</a>
+  </nav>
 
-  <section class="parchment" aria-labelledby="jh">
-    <h2 id="jh">The Journey</h2>
-    <div class="rule"></div>
-    <div class="stats">
-      <div class="stat"><b id="sCh">0</b><span>chapters read</span></div>
-      <div class="stat"><b id="sDays">0</b><span>days managed</span></div>
-      <div class="stat"><b id="sPct">0%</b><span>of the way</span></div>
-    </div>
-    <div class="journey" aria-hidden="true">
-      <div class="track"></div><div class="trackfill" id="fill"></div>
-      <div class="books" id="books"></div>
-    </div>
-    <p class="chapter" id="chapter" aria-live="polite"></p>
-  </section>
+  <div class="view" data-view="today">
+    <section class="parchment today-card" aria-labelledby="th">
+      <h2 id="th">Today</h2><div class="rule"></div>
+      <div id="today"></div>
+    </section>
+    <a class="parchment behind-banner" id="behindBanner" href="#catchup" hidden></a>
+    <section class="parchment" aria-labelledby="jh">
+      <h2 id="jh">The Journey</h2><div class="rule"></div>
+      <div class="stats">
+        <div class="stat"><b id="sCh">0</b><span>chapters read</span></div>
+        <div class="stat"><b id="sPg">0</b><span>pages read (approx)</span></div>
+        <div class="stat"><b id="sPct">0%</b><span>of the way</span></div>
+      </div>
+      <div class="journey" aria-hidden="true">
+        <div class="track"></div><div class="trackfill" id="fill"></div>
+        <div class="books" id="booksBar"></div>
+      </div>
+      <p class="chapter" id="chapter" aria-live="polite"></p>
+    </section>
+  </div>
 
-  <section class="parchment" aria-labelledby="sh">
-    <h2 id="sh">The Schedule</h2>
-    <div class="rule"></div>
-    <ol class="sched" id="sched"></ol>
+  <div class="view" data-view="catchup">
+    <section class="parchment catchup" aria-labelledby="ch2">
+      <h2 id="ch2">Catch Up</h2><div class="rule"></div>
+      <div id="catchup"></div>
+    </section>
+  </div>
+
+  <div class="view" data-view="schedule">
+    <section class="parchment" aria-labelledby="sh">
+      <h2 id="sh">The Schedule</h2><div class="rule"></div>
+      <ol class="sched" id="sched"></ol>
+    </section>
+  </div>
+
+  <div class="view" data-view="books">
+    <section class="parchment" aria-labelledby="bh">
+      <h2 id="bh">By Book</h2><div class="rule"></div>
+      <div id="bybook"></div>
+    </section>
+  </div>
+
+  <section class="parchment tools">
     <div class="btns">
       <button class="act" id="resched" type="button">🪄 Reschedule remaining</button>
       <button class="act ghost" id="reset" type="button">Clear all checks</button>
     </div>
-    <p class="note">Reschedule spreads every unread chapter, in order, across the reading days left from today to Dec 24. Progress is saved on this device only and works offline.</p>
+    <p class="note">Reschedule moves every unread chapter, in order, onto the reading days from today through Dec 24. Chapters you've read stay put. Progress is saved on this device only and works offline.</p>
   </section>
   <footer>Fan-made &amp; unofficial · no owls required</footer>
 </div>
@@ -263,114 +359,167 @@ function partition(ids,days){const M=ids.length,N=days.length,out={};if(!N)retur
     out[days[k-1]]=ids.slice(prev,e);prev=e;}
   return out;}
 function buildDefault(){return partition(CHAPTERS.map(c=>c.id),readingDays());}
-// Keep checked days as-is; put every unread chapter, in order, onto unchecked reading days from today through END.
-function reschedule(schedule,checked,today){const done=new Set();const next={};
-  readingDays().forEach(d=>{if(checked[d]){(schedule[d]||[]).forEach(id=>done.add(id));next[d]=(schedule[d]||[]).slice();}});
-  const remaining=CHAPTERS.map(c=>c.id).filter(id=>!done.has(id));
-  const future=readingDays().filter(d=>d>=today&&!checked[d]);
+// Chapter-level reschedule: chapters already read stay where they are; every unread chapter, in order,
+// is spread across reading days from today through END. Returns null if unread chapters remain but no days do.
+function reschedule(schedule,done,today){const isDone=id=>!!done[id];const next={};
+  readingDays().forEach(d=>{next[d]=(schedule[d]||[]).filter(isDone);});
+  const remaining=CHAPTERS.map(c=>c.id).filter(id=>!isDone(id));
+  const future=readingDays().filter(d=>d>=today);
   if(remaining.length&&!future.length)return null;
-  readingDays().forEach(d=>{if(!checked[d]&&d<today)next[d]=[];});
-  Object.assign(next,partition(remaining,future));return next;}
+  const add=partition(remaining,future);
+  future.forEach(d=>{next[d]=next[d].concat(add[d]||[]).sort((x,y)=>x-y);});
+  return next;}
+const OLD_KEY="hp-reading-schedule-2026-v1", NEW_KEY="hp-reading-chapters-2026-v2";
+// One-time migration: old format {checked:{date:true}, schedule} -> new {chapters:{id:true}, schedule}.
+// Old key is never modified. If new state already exists it wins.
+function loadState(oldRaw,newRaw){
+  try{const n=JSON.parse(newRaw);if(n&&n.chapters&&n.schedule)return {state:n,migrated:false};}catch(e){}
+  let o=null;try{o=JSON.parse(oldRaw);}catch(e){}
+  const schedule=(o&&o.schedule&&typeof o.schedule==="object")?o.schedule:buildDefault();
+  const chapters={};
+  if(o&&o.checked)Object.keys(o.checked).forEach(d=>{if(o.checked[d])(schedule[d]||[]).forEach(id=>{chapters[id]=true;});});
+  return {state:{v:2,chapters,schedule,migratedFromV1:!!o,migratedAt:new Date().toISOString()},migrated:!!o};}
 function chLabel(c){return c.c==null?"Epilogue":"Ch. "+c.c;}
 // e.g. [{book:3, head:"Book 3, Ch. 5–7", titles:[...]}] — one group per book touched that day
 function describe(ids){const groups=[];ids.forEach(id=>{const c=CHAPTERS[id];let g=groups[groups.length-1];if(!g||g.b!==c.b){g={b:c.b,list:[]};groups.push(g);}g.list.push(c);});
   return groups.map(g=>{const f=g.list[0],l=g.list[g.list.length-1];let range;
     if(g.list.length===1)range=chLabel(f);else if(l.c==null)range="Ch. "+f.c+"–"+(BOOKS[6].ch.length-1)+" + Epilogue";else range="Ch. "+f.c+"–"+l.c;
     return {book:g.b,bookTitle:BOOKS[g.b-1].title,head:"Book "+g.b+", "+range,titles:g.list.map(c=>c.title)};});}
-if(typeof module!=="undefined")module.exports={BOOKS,START,END,HOLIDAYS,CHAPTERS,isoAdd,dow,restReasons,allDays,readingDays,partition,buildDefault,reschedule,describe};
+if(typeof module!=="undefined")module.exports={BOOKS,START,END,HOLIDAYS,CHAPTERS,isoAdd,dow,restReasons,allDays,readingDays,partition,buildDefault,reschedule,describe,loadState,OLD_KEY,NEW_KEY};
 /*SCHED-END*/
 
 (function(){
-  const KEY='hp-reading-schedule-2026-v1';
   const ROMAN=['I','II','III','IV','V','VI','VII'];
   const BOLT='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 1 5 13.5h6L8.5 23 19 9.5h-6.2z" fill="currentColor"/></svg>';
   const WK=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],WKL=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const fmt=(s,long)=>{const [y,m,d]=s.split('-').map(Number);return (long?WKL:WK)[dow(s)]+', '+MO[m-1]+' '+d;};
-  // "today" always in America/Chicago, whatever the device timezone
   const todayISO=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  const pp=n=>Math.round(n);
 
-  let st=null;try{st=JSON.parse(localStorage.getItem(KEY));}catch(e){}
-  if(!st||typeof st!=='object')st={};
-  if(!st.checked)st.checked={};
-  if(!st.schedule)st.schedule=buildDefault();
-  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}};
-  save();
+  let oldRaw=null,newRaw=null;try{oldRaw=localStorage.getItem(OLD_KEY);newRaw=localStorage.getItem(NEW_KEY);}catch(e){}
+  const loaded=loadState(oldRaw,newRaw); let st=loaded.state;
+  const save=()=>{try{localStorage.setItem(NEW_KEY,JSON.stringify(st));}catch(e){}};
+  save(); // old key is left untouched
   const $=id=>document.getElementById(id);
   const RD=readingDays();
+  const isDone=id=>!!st.chapters[id];
+  const dayIds=d=>st.schedule[d]||[];
+  const dayOf={};function indexDays(){for(const k in dayOf)delete dayOf[k];RD.forEach(d=>dayIds(d).forEach(id=>dayOf[id]=d));}
+  const openDays=new Set(), openBooks=new Set();
 
-  $('books').innerHTML=BOOKS.map((b,i)=>`<div class="book"><div class="tome">${ROMAN[i]}</div><small>${b.short}</small></div>`).join('');
+  $('booksBar').innerHTML=BOOKS.map((b,i)=>`<div class="book"><div class="tome">${ROMAN[i]}</div><small>${b.short}</small></div>`).join('');
 
-  function assignHTML(ids,big){
-    if(!ids||!ids.length)return '<p class="none">Nothing assigned (moved by a reschedule).</p>';
-    return describe(ids).map(g=>`<div class="asg"><div class="head">${esc(g.head)}<span class="bt"><span class="sep"> · </span>${esc(g.bookTitle)}</span></div>
-      <${big?'ol':'div'} class="titles">${big?g.titles.map(t=>'<li>'+esc(t)+'</li>').join(''):esc(g.titles.join(' · '))}</${big?'ol':'div'}></div>`).join('');
-  }
-  function doneSet(){const s=new Set();RD.forEach(d=>{if(st.checked[d])(st.schedule[d]||[]).forEach(i=>s.add(i));});return s;}
+  function chapItem(id,showDay){const c=CHAPTERS[id],on=isDone(id);
+    return `<li><label class="chap${on?' on':''}"><input type="checkbox" data-id="${id}" ${on?'checked':''}>
+      <span class="ct"><span class="cn">${c.c==null?'Epilogue':'Ch. '+c.c}</span> ${esc(c.c==null?c.title.replace(/^Epilogue: /,''):c.title)}
+      <span class="cm">Book ${c.b} · ~${pp(c.pages)} pp${showDay&&dayOf[id]?' · '+fmt(dayOf[id]):''}</span></span></label></li>`;}
+  function dayBox(d){const ids=dayIds(d),n=ids.filter(isDone).length,state=!ids.length?'':n===ids.length?'all':n?'some':'';
+    return `<button type="button" class="box ${state}" data-day="${d}" aria-label="${state==='all'?'Uncheck':'Check'} all chapters for ${fmt(d,1)}" ${ids.length?'':'disabled'}>${state==='all'?BOLT:state==='some'?'<span class="dash"></span>':''}</button>`;}
+  function heads(ids){return describe(ids).map(g=>`<span class="head">${esc(g.head)}</span><span class="bt"><span class="sep"> · </span>${esc(g.bookTitle)}</span>`).join('<br>');}
 
   function renderToday(t){
     const el=$('today');
-    if(t<START){el.innerHTML=`<p class="big">The journey begins <strong>${fmt(START,1)}</strong>.</p>${assignHTML(st.schedule[START],1)}`;return;}
-    if(t>END){const n=doneSet().size;el.innerHTML=`<p class="big">${n===CHAPTERS.length?'Mischief Managed — all seven books read.':'The schedule ended Dec 24. '+(CHAPTERS.length-n)+' chapters still unchecked.'}</p>`;return;}
+    if(t<START){el.innerHTML=`<p class="big">The journey begins <strong>${fmt(START,1)}</strong>.</p>`;return;}
+    if(t>END){const n=CHAPTERS.filter(c=>isDone(c.id)).length;el.innerHTML=`<p class="big">${n===CHAPTERS.length?'Mischief Managed — all seven books read.':'The schedule ended Dec 24. '+(CHAPTERS.length-n)+' chapters left — see Catch up.'}</p>`;return;}
     const why=restReasons(t);
     if(why.length){const nx=RD.find(d=>d>t);
       el.innerHTML=`<p class="date">${fmt(t,1)}</p><p class="rest">Rest day</p><p class="reason">${esc(why.join(' · '))}</p>`+
-        (nx?`<p class="next">Next reading: <strong>${fmt(nx,1)}</strong></p>${assignHTML(st.schedule[nx],0)}`:'');return;}
-    const on=!!st.checked[t];
-    el.innerHTML=`<p class="date">${fmt(t,1)}</p>${assignHTML(st.schedule[t],1)}
-      <button class="act check ${on?'on':''}" id="todayBtn" type="button" aria-pressed="${on}">${on?BOLT+' Mischief Managed':'⚡ Mark today as read'}</button>`;
-    $('todayBtn').onclick=()=>toggle(t);
+        (nx?`<p class="next">Next reading: <strong>${fmt(nx,1)}</strong></p><div class="nexthead">${heads(dayIds(nx))}</div>`:'');return;}
+    const ids=dayIds(t),n=ids.filter(isDone).length,all=ids.length&&n===ids.length;
+    el.innerHTML=`<p class="date">${fmt(t,1)}</p><div class="todayhead">${ids.length?heads(ids):'<span class="none">Nothing left assigned today.</span>'}</div>
+      <ul class="chaps big">${ids.map(id=>chapItem(id)).join('')}</ul>
+      ${ids.length?`<p class="prog">${n}/${ids.length} chapters read today</p>
+      <button class="act check ${all?'on':''}" data-day="${t}" type="button">${all?BOLT+' Mischief Managed':'⚡ Mark all as read'}</button>`:''}`;
+  }
+
+  function renderCatchup(t){
+    const due=RD.filter(d=>d<=t), groups=due.map(d=>({d,ids:dayIds(d).filter(id=>!isDone(id))})).filter(g=>g.ids.length);
+    const all=groups.flatMap(g=>g.ids), pages=all.reduce((a,id)=>a+CHAPTERS[id].pages,0);
+    const past=groups.filter(g=>g.d<t).flatMap(g=>g.ids), pastPages=past.reduce((a,id)=>a+CHAPTERS[id].pages,0);
+    $('cuBadge').textContent=past.length?past.length:''; 
+    const bb=$('behindBanner');
+    if(past.length){bb.hidden=false;bb.innerHTML=`<strong>${past.length} chapter${past.length===1?'':'s'} behind</strong> · ~${pp(pastPages)} pages · tap to catch up →`;}else bb.hidden=true;
+    const el=$('catchup');
+    if(!all.length){el.innerHTML=`<p class="allgood">${BOLT} All caught up.<br><em>Mischief Managed.</em></p>`;return;}
+    el.innerHTML=`<div class="cusum"><b>${past.length}</b> chapters behind <span>(~${pp(pastPages)} pages)</span>${all.length>past.length?`<br><small>plus ${all.length-past.length} due today · ${all.length} total, ~${pp(pages)} pages</small>`:''}</div>
+      ${groups.map(g=>`<div class="cugroup"><div class="cuhead">${dayBox(g.d)}<div><span class="dt">${g.d===t?'Today · ':''}${fmt(g.d,1)}</span><span class="cucount">${g.ids.length} unread</span></div></div>
+        <ul class="chaps">${g.ids.map(id=>chapItem(id)).join('')}</ul></div>`).join('')}`;
+  }
+
+  function renderSchedule(t){
+    $('sched').innerHTML=allDays().map(d=>{
+      const why=restReasons(d), cls=d===t?' is-today':'';
+      if(why.length)return `<li class="row rest-row${cls}"><span class="dt">${fmt(d)}</span><span class="rr">Rest · ${esc(why.join(' · '))}</span></li>`;
+      const ids=dayIds(d),n=ids.filter(isDone).length,all=ids.length&&n===ids.length,behind=!all&&d<t&&ids.length;
+      const open=openDays.has(d)||(d===t&&!openDays.has('!'+d));
+      return `<li class="row${cls}"><div class="day-card${all?' on':''}${behind?' behind':''}">
+        ${dayBox(d)}
+        <details data-d="${d}" ${open?'open':''}><summary><span class="dt">${d===t?'Today · ':''}${fmt(d)}${behind?' · <em>behind</em>':''}</span>
+          <span class="count ${all?'full':n?'part':''}">${n}/${ids.length}</span><br>${ids.length?heads(ids):'<span class="none">Nothing assigned</span>'}${all?'<span class="mm">Mischief Managed</span>':''}</summary>
+          <ul class="chaps">${ids.map(id=>chapItem(id)).join('')}</ul></details></div></li>`;}).join('');
+  }
+
+  function renderBooks(){
+    $('bybook').innerHTML=BOOKS.map(b=>{const cs=CHAPTERS.filter(c=>c.b===b.n),n=cs.filter(c=>isDone(c.id)).length,pct=Math.round(n/cs.length*100);
+      return `<details class="bk${n===cs.length?' done':''}" data-b="${b.n}" ${openBooks.has(b.n)?'open':''}><summary>
+        <span class="tome sm">${ROMAN[b.n-1]}</span><span class="bkt"><b>${esc(b.title)}</b><span class="bar"><i style="width:${pct}%"></i></span>
+        <span class="bkn">${n}/${cs.length} chapters · ${b.pages} pp${n===cs.length?' · Mischief Managed':''}</span></span></summary>
+        <ul class="chaps">${cs.map(c=>chapItem(c.id,true)).join('')}</ul></details>`;}).join('');
   }
 
   function render(){
-    const t=todayISO();
-    renderToday(t);
-    const ol=$('sched');
-    ol.innerHTML=allDays().map(d=>{
-      const why=restReasons(d), cls=d===t?' is-today':'';
-      if(why.length)return `<li class="row rest-row${cls}"><span class="dt">${fmt(d)}</span><span class="rr">Rest · ${esc(why.join(' · '))}</span></li>`;
-      const on=!!st.checked[d], ids=st.schedule[d]||[], behind=!on&&d<t&&ids.length;
-      return `<li class="row${cls}"><button type="button" class="day-row${on?' on':''}${behind?' behind':''}" data-d="${d}" aria-pressed="${on}" ${ids.length?'':'disabled'}
-        aria-label="${fmt(d,1)}${d===t?', today':''}: ${esc(describe(ids).map(g=>g.head).join(', ')||'nothing assigned')}">
-        <span class="box" aria-hidden="true">${on?BOLT:''}</span>
-        <span class="info"><span class="dt">${d===t?'Today · ':''}${fmt(d)}${behind?' · <em>behind</em>':''}</span>${assignHTML(ids,0)}${on?'<span class="mm">Mischief Managed</span>':''}</span>
-      </button></li>`;}).join('');
-
-    const done=doneSet(), nDone=done.size, frac=nDone/CHAPTERS.length;
-    $('sCh').textContent=nDone+'/'+CHAPTERS.length;
-    $('sDays').textContent=RD.filter(d=>st.checked[d]).length+'/'+RD.length;
+    indexDays(); const t=todayISO();
+    renderToday(t);renderCatchup(t);renderSchedule(t);renderBooks();
+    const done=CHAPTERS.filter(c=>isDone(c.id)), frac=done.length/CHAPTERS.length;
+    $('sCh').textContent=done.length+'/'+CHAPTERS.length;
+    $('sPg').textContent=pp(done.reduce((a,c)=>a+c.pages,0)).toLocaleString();
     $('sPct').textContent=Math.round(frac*100)+'%';
-    const bookDone=BOOKS.map(b=>CHAPTERS.filter(c=>c.b===b.n).every(c=>done.has(c.id)));
-    const cur=bookDone.indexOf(false);
-    [...$('books').children].forEach((el,i)=>{el.classList.toggle('done',bookDone[i]);el.classList.toggle('current',i===cur);});
-    const bw=$('books').getBoundingClientRect().width;$('fill').style.width=Math.max(0,frac*(bw-44))+'px';
+    const bookDone=BOOKS.map(b=>CHAPTERS.filter(c=>c.b===b.n).every(c=>isDone(c.id))), cur=bookDone.indexOf(false);
+    [...$('booksBar').children].forEach((el,i)=>{el.classList.toggle('done',bookDone[i]);el.classList.toggle('current',i===cur);});
+    const bw=$('booksBar').getBoundingClientRect().width;$('fill').style.width=Math.max(0,frac*(bw-44))+'px';
     if(cur<0)$('chapter').innerHTML='<strong>All seven books complete.</strong> Mischief Managed.';
-    else{const left=CHAPTERS.filter(c=>c.b===cur+1&&!done.has(c.id)).length;
+    else{const left=CHAPTERS.filter(c=>c.b===cur+1&&!isDone(c.id)).length;
       $('chapter').innerHTML=`Now reading <strong>Book ${cur+1}: ${esc(BOOKS[cur].title)}</strong> — ${left} chapter${left===1?'':'s'} to go in this book.`;}
     return bookDone.filter(Boolean).length;
   }
 
   let tt;function toast(a,b){const x=$('toast');x.innerHTML=a+(b?'<small>'+b+'</small>':'');x.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>x.classList.remove('show'),2600);}
-  function sparks(el){if(!el||matchMedia('(prefers-reduced-motion: reduce)').matches)return;const r=el.getBoundingClientRect(),x=r.left+Math.min(40,r.width/2),y=r.top+r.height/2;
-    for(let i=0;i<14;i++){const s=document.createElement('div');s.className='spark';const a=Math.random()*6.283,q=40+Math.random()*60;
+  function sparks(el){if(!el||matchMedia('(prefers-reduced-motion: reduce)').matches)return;const r=el.getBoundingClientRect();if(!r.width)return;const x=r.left+r.width/2,y=r.top+r.height/2;
+    for(let i=0;i<12;i++){const s=document.createElement('div');s.className='spark';const a=Math.random()*6.283,q=30+Math.random()*50;
       s.style.left=x+'px';s.style.top=y+'px';s.style.setProperty('--dx',Math.cos(a)*q+'px');s.style.setProperty('--dy',Math.sin(a)*q+'px');document.body.appendChild(s);setTimeout(()=>s.remove(),950);}}
-  function toggle(d){
-    const before=render();
-    if(st.checked[d])delete st.checked[d];else st.checked[d]=true;
-    save();const after=render();
-    if(st.checked[d]){sparks(document.querySelector(`[data-d="${d}"] .box`)||$('todayBtn'));if(navigator.vibrate)navigator.vibrate(30);
-      toast(after>before?'Mischief Managed!':'Mischief Managed',after>before?(after===7?'All seven books complete. Nox.':'You finished '+BOOKS[after-1].title+'.'):'Another day in the books.');}
+  function apply(ids,val,srcSel){
+    const booksBefore=render(), d0=ids.map(id=>dayOf[id]);
+    const daysBefore=new Set(RD.filter(d=>dayIds(d).length&&dayIds(d).every(isDone)));
+    ids.forEach(id=>{if(val)st.chapters[id]=true;else delete st.chapters[id];});
+    save(); const booksAfter=render();
+    const el=srcSel&&document.querySelector('.view.active '+srcSel); if(el){el.focus({preventScroll:true});}
+    if(!val)return; sparks(el); if(navigator.vibrate)navigator.vibrate(20);
+    const newDay=[...new Set(d0)].find(d=>d&&!daysBefore.has(d)&&dayIds(d).every(isDone));
+    if(booksAfter>booksBefore)toast('Mischief Managed!',booksAfter===7?'All seven books complete. Nox.':'You finished '+esc(BOOKS[booksAfter-1].title)+'.');
+    else if(newDay)toast('Mischief Managed',fmt(newDay,1)+' is done.');
   }
-  $('sched').addEventListener('click',e=>{const b=e.target.closest('.day-row');if(b&&!b.disabled)toggle(b.dataset.d);});
-  $('resched').onclick=()=>{const t=todayISO();const next=reschedule(st.schedule,st.checked,t<START?START:t);
+  document.addEventListener('change',e=>{const i=e.target.closest('input[data-id]');if(i)apply([+i.dataset.id],i.checked,`input[data-id="${i.dataset.id}"]`);});
+  document.addEventListener('click',e=>{const b=e.target.closest('[data-day]');if(!b||b.disabled)return;e.preventDefault();
+    const d=b.dataset.day,ids=dayIds(d),all=ids.every(isDone);apply(ids,!all,`[data-day="${d}"]`);});
+  document.addEventListener('toggle',e=>{const x=e.target;if(x.dataset&&x.dataset.d){const d=x.dataset.d;if(x.open){openDays.add(d);openDays.delete('!'+d);}else{openDays.delete(d);openDays.add('!'+d);}}
+    if(x.dataset&&x.dataset.b){x.open?openBooks.add(+x.dataset.b):openBooks.delete(+x.dataset.b);}},true);
+
+  function showTab(){const h=(location.hash||'#today').slice(1),v=['today','catchup','schedule','books'].includes(h)?h:'today';
+    document.querySelectorAll('.view').forEach(el=>el.classList.toggle('active',el.dataset.view===v));
+    document.querySelectorAll('.tabs a').forEach(a=>{const on=a.dataset.tab===v;a.classList.toggle('on',on);a.setAttribute('aria-selected',on);});
+    if(v==='schedule'){const r=document.querySelector('.row.is-today');if(r)r.scrollIntoView({block:'center'});}render();}
+  addEventListener('hashchange',()=>{showTab();scrollTo({top:0});});
+
+  $('resched').onclick=()=>{const t=todayISO();const next=reschedule(st.schedule,st.chapters,t<START?START:t);
     if(!next){toast('No days left','There are no reading days left before Dec 24.');return;}
-    if(!confirm('Spread all unread chapters across the reading days left from today through Dec 24? Checked days stay as they are.'))return;
+    if(!confirm('Spread all unread chapters across the reading days from today through Dec 24? Chapters you have read stay where they are.'))return;
     st.schedule=next;save();render();toast('Schedule rewritten','Unread chapters spread through Dec 24.');};
-  $('reset').onclick=()=>{if(confirm('Clear every checked day and restore the original schedule? This cannot be undone.')){st={checked:{},schedule:buildDefault()};save();render();toast('Obliviate!','All checks cleared.');}};
+  $('reset').onclick=()=>{if(confirm('Clear every checked chapter and restore the original schedule? This cannot be undone.')){st={v:2,chapters:{},schedule:buildDefault()};save();render();toast('Obliviate!','All checks cleared.');}};
   addEventListener('resize',render);
   let last=todayISO();setInterval(()=>{const n=todayISO();if(n!==last){last=n;render();}},60000);
-  render();
-  const tr=document.querySelector('.row.is-today');if(tr&&tr.scrollIntoView&&location.hash==='#today-row')tr.scrollIntoView({block:'center'});
+  showTab();
+  if(loaded.migrated){const n=Object.keys(st.chapters).length;if(n)toast('Progress carried over',n+' chapters marked from your checked days.');}
 })();
 </script>
 </body>
